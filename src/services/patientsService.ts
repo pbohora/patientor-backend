@@ -1,4 +1,4 @@
-import patientsData from '../data/patients.json';
+import patientsData from '../data/patients';
 import uuid from 'uuid/v1';
 
 import {
@@ -19,7 +19,7 @@ const getPatients = (): NonSensitivePatientsData[] => {
   }));
 };
 
-const addPatient = (newPatient: NewPatientData): NonSensitivePatientsData => {
+const addPatient = (newPatient: NewPatientData): PatientsData => {
   const newPatientData = {
     ...newPatient,
     id: uuid(),
