@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NewPatientData, Gender } from './types';
+import { NewPatientData, Gender, Entry } from './types';
 
 const isString = (text: any): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -15,6 +15,10 @@ const isSsn = (ssn: string): boolean => {
 
 const isGender = (gender: any): gender is Gender => {
   return Object.values(Gender).includes(gender);
+};
+
+const isArray = (entries: any): entries is Entry[] => {
+  return Array.isArray(entries);
 };
 
 const parseString = (string: any): string => {
@@ -50,9 +54,16 @@ const parseDateOFBirth = (date: any): string => {
 
 const parseGender = (gender: any): Gender => {
   if (!gender || !isGender(gender)) {
-    throw new Error('Incorrect or missing weather: ' + gender);
+    throw new Error('Incorrect or missing gender: ' + gender);
   }
   return gender;
+};
+
+const parseEntries = (entries: any): Entry[] => {
+  if (!entries || !isArray(entries)) {
+    throw new Error('Incorrect or missing entries: ' + entries);
+  }
+  return entries;
 };
 
 const toNewPatientData = (object: any): NewPatientData => {
@@ -62,6 +73,7 @@ const toNewPatientData = (object: any): NewPatientData => {
     ssn: parseSsn(object.ssn),
     gender: parseGender(object.gender),
     occupation: parseString(object.occupation),
+    entries: parseEntries(object.entries),
   };
   return newData;
 };
