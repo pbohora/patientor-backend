@@ -1,7 +1,7 @@
 import { PatientsData, Gender } from '../types';
 import toNewPatientData from '../utils';
 
-const data = [
+const data: PatientsData[] = [
   {
     id: 'd2773336-f723-11e9-8f0b-362b9e155667',
     name: 'John McClane',

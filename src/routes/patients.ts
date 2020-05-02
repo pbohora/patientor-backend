@@ -19,8 +19,8 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   try {
-    const newPerson = toNewPatientData(req.body);
-    const newPatientdata = patientsService.addPatient(newPerson);
+    const newPatient = toNewPatientData(req.body);
+    const newPatientdata = patientsService.addPatient(newPatient);
     res.json(newPatientdata);
   } catch (e) {
     res.status(400).send(e.message);
