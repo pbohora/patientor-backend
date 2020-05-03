@@ -17,11 +17,22 @@ router.get('/:id', (req, res) => {
   }
 });
 
+router.post('/:id/entries', (req, res) => {
+  const { id } = req.params;
+  try {
+    const newEntryData = req.body;
+    const newEntry = patientsService.addPatientEntries(id, newEntryData);
+    res.status(200).json(newEntry);
+  } catch (e) {
+    res.status(400).send(e.message);
+  }
+});
+
 router.post('/', (req, res) => {
   try {
     const newPatient = toNewPatientData(req.body);
     const newPatientdata = patientsService.addPatient(newPatient);
-    res.json(newPatientdata);
+    res.status(200).json(newPatientdata);
   } catch (e) {
     res.status(400).send(e.message);
   }
