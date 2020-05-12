@@ -5,7 +5,6 @@ import {
   NonSensitivePatientsData,
   NewPatientData,
   PatientsData,
-  Entry,
   NewEntryData,
 } from '../types';
 
@@ -31,7 +30,7 @@ const getSinglePatient = (id: string): PatientsData | undefined => {
 const addPatientEntries = (
   id: string,
   newEntryData: NewEntryData
-): Entry | { error: string } => {
+): PatientsData | { error: string } => {
   const newEntry = {
     ...newEntryData,
     id: uuid(),
@@ -59,22 +58,22 @@ const addPatientEntries = (
   switch (newEntry.type) {
     case 'Hospital':
       if (!newEntry.discharge) {
-        return { error: 'discharge info is missing!' };
+        throw new Error('discharge info is missing!');
       }
       patient.entries.push(newEntry);
-      return newEntry;
+      return patient;
     case 'HealthCheck':
-      if (!newEntry.healthCheckRating) {
-        return { error: 'heath check rating is missing!' };
+      if (newEntry.healthCheckRating >= 0 && newEntry.healthCheckRating <= 3) {
+        patient.entries.push(newEntry);
+        return patient;
       }
-      patient.entries.push(newEntry);
-      return newEntry;
+      throw new Error('heath check rating is missing!');
     case 'OccupationalHealthcare':
       if (!newEntry.employerName) {
-        return { error: 'enployer name is missing!' };
+        throw new Error('employer name is missing!');
       }
       patient.entries.push(newEntry);
-      return newEntry;
+      return patient;
     default:
       return assertNever(newEntry);
   }
